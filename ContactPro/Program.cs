@@ -28,7 +28,7 @@ builder.Services.AddScoped<IImageService, ImageService>();
 builder.Services.AddScoped<IAddressBookService, AddressBookService>();
 builder.Services.AddScoped<IEmailSender, EmailService>();
 
-builder.Services.Configure<MailSettings>(builder.Configuration.GetSection("MailSettings")); ;
+builder.Services.Configure<MailSettings>(builder.Configuration.GetSection("MailSettings"));
 
 
 var app = builder.Build();
