@@ -1,13 +1,12 @@
+using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Identity.UI.Services;
+using Microsoft.EntityFrameworkCore;
+using System.Configuration;
 using ContactPro.Data;
 using ContactPro.Models;
 using ContactPro.Services;
 using ContactPro.Services.Interfaces;
 using ContactPro.Helpers;
-using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.Identity.UI.Services;
-using Microsoft.EntityFrameworkCore;
-using NuGet.Common;
-
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -22,20 +21,20 @@ builder.Services.AddDatabaseDeveloperPageExceptionFilter();
 
 builder.Services.AddDefaultIdentity<AppUser>(options => options.SignIn.RequireConfirmedAccount = true)
     .AddEntityFrameworkStores<ApplicationDbContext>();
+builder.Services.AddControllersWithViews();
 
 //custom services
 builder.Services.AddScoped<IImageService, ImageService>();
 builder.Services.AddScoped<IAddressBookService, AddressBookService>();
 builder.Services.AddScoped<IEmailSender, EmailService>();
 
-//builder.Services.Configure<MailSettings>(builder.Configuration.GetSection("MailSettings"));
-
-builder.Services.AddControllersWithViews();
+builder.Services.Configure<MailSettings>(builder.Configuration.GetSection("MailSettings"));
 
 var app = builder.Build();
 
 //get the database update with the latest migrations
-//await DataHelper.ManageDataAsync(app);
+var scope = app.Services.CreateScope();
+await DataHelper.ManageDataAsync(scope.ServiceProvider);
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
