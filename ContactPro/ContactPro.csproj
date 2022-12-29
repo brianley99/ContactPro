@@ -9,6 +9,11 @@
 	</PropertyGroup>
 
 	<ItemGroup>
+	  <Content Remove="Views\Home\Index - Copy.cshtml" />
+	  <Content Remove="Views\Shared\_Layout - Copy.cshtml" />
+	</ItemGroup>
+
+	<ItemGroup>
 		<PackageReference Include="MailKit" Version="3.4.1" />
 		<PackageReference Include="Microsoft.AspNetCore.Diagnostics.EntityFrameworkCore" Version="6.0.7" />
 		<PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="6.0.8" />
