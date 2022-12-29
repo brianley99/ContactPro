@@ -6,6 +6,7 @@ using ContactPro.Helpers;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.EntityFrameworkCore;
+using NuGet.Common;
 
 
 var builder = WebApplication.CreateBuilder(args);
@@ -21,7 +22,6 @@ builder.Services.AddDatabaseDeveloperPageExceptionFilter();
 
 builder.Services.AddDefaultIdentity<AppUser>(options => options.SignIn.RequireConfirmedAccount = true)
     .AddEntityFrameworkStores<ApplicationDbContext>();
-builder.Services.AddControllersWithViews();
 
 //custom services
 builder.Services.AddScoped<IImageService, ImageService>();
@@ -30,12 +30,12 @@ builder.Services.AddScoped<IEmailSender, EmailService>();
 
 builder.Services.Configure<MailSettings>(builder.Configuration.GetSection("MailSettings"));
 
+builder.Services.AddControllersWithViews();
 
 var app = builder.Build();
-var scope = app.Services.CreateScope();
 
 //get the database update with the latest migrations
-await DataHelper.ManageDataAsync(scope.ServiceProvider);
+//await DataHelper.ManageDataAsync(app);
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
